@@ -1,0 +1,31 @@
+*** Settings ***
+Library    SeleniumLibrary
+
+*** Variables ***
+${REGISTER_PAGE_URL}    https://www.futureskill.com/register
+${OTP_MESSAGE}          ระบบได้ส่งรหัส OTP ไปยังเบอร์โทรศัพท์
+
+*** Keywords ***
+Open Register Page
+    [Documentation]    เปิดหน้า Register ของ FutureSkill
+    Open Browser    ${REGISTER_PAGE_URL}    Chrome
+    Maximize Browser Window
+
+Enter User Details
+    [Documentation]    กรอกข้อมูลในการสมัครสมาชิก
+    [Arguments]    ${email}    ${first_name}    ${last_name}    ${tele_num}    ${new_password}    ${confirm_password}
+    Input Text      xpath=//input[@name='email']    ${email}
+    Input Text      xpath=//input[@name='first_name']    ${first_name}
+    Input Text      xpath=//input[@name='last_name']    ${last_name}
+    Input Text      xpath=//input[@name='tele_num']    ${tele_num}
+    Input Text      xpath=//input[@name='new_password']    ${new_password}
+    Input Text      xpath=//input[@name='confirm_password']    ${confirm_password}
+    Click Button    xpath=//button[@id='register_button']
+
+Verify OTP Message
+    [Documentation]    ตรวจสอบว่าได้ข้อความ OTP จากระบบ
+    Page Should Contain    ${OTP_MESSAGE}
+    
+Close Browser
+    [Documentation]    ปิด Browser
+    Close All Browsers
